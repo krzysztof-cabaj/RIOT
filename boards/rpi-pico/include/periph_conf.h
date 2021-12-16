@@ -78,6 +78,37 @@ static const timer_conf_t timer_config[] = {
 
 #define TIMER_NUMOF     ARRAY_SIZE(timer_config)
 
+/**
+ * @name    PIO configuration
+ * @{
+ */
+/**
+ * @brief   Array of PIO configurations
+ */
+static const pio_conf_t pio_config[] = {
+    {
+        .dev = PIO0,
+        .irqn0 = PIO0_IRQ_0_IRQn,
+        .irqn1 = PIO0_IRQ_1_IRQn
+    },
+    {
+        .dev = PIO1,
+        .irqn0 = PIO1_IRQ_0_IRQn,
+        .irqn1 = PIO1_IRQ_1_IRQn
+    }
+};
+
+#define PIO_0_ISR0      isr_pio00   /**< ISR name of PIO 0 IRQ 0 */
+#define PIO_0_ISR1      isr_pio01   /**< ISR name of PIO 0 IRQ 1 */
+#define PIO_1_ISR0      isr_pio10   /**< ISR name of PIO 1 IRQ 0 */
+#define PIO_1_ISR1      isr_pio11   /**< ISR name of PIO 1 IRQ 1 */
+
+#define PIO_NUMOF       ARRAY_SIZE(pio_config)  /**< Number of PIOs */
+#define PIO_SM_NUMOF    4                       /**< Number of state machines per PIO */
+#define PIO_INSTR_NUMOF 32                      /**< Maximum number of instructions */
+#define PIO_IRQ_NUMOF   8                       /**< Number of interrupt flags per PIO */
+/** @} */
+
 #ifdef __cplusplus
 }
 #endif
