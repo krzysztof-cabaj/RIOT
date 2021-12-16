@@ -433,6 +433,15 @@ typedef struct {
 } pio_conf_t;
 
 /**
+ * @brief   PIO I2C configuration type
+ */
+typedef struct {
+    gpio_t sda;                     /**< Pin to use as SDA pin */
+    gpio_t scl;                     /**< Pin to use as SCL pin */
+    unsigned irq;                   /**< PIO IRQ line to use */
+} pio_i2c_conf_t;
+
+/**
  * @brief   Get the PAD control register for the given GPIO pin as word
  *
  * Note: Only perform 32-bit writes to I/O registers.

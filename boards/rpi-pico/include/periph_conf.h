@@ -79,6 +79,16 @@ static const timer_conf_t timer_config[] = {
 #define TIMER_NUMOF     ARRAY_SIZE(timer_config)
 
 /**
+ * @name    I2C configuration
+ * @{
+ */
+/**
+ *  @brief  Number of I2C interfaces
+ */
+#define I2C_NUMOF       0
+/** @} */
+
+/**
  * @name    PIO configuration
  * @{
  */
@@ -107,6 +117,24 @@ static const pio_conf_t pio_config[] = {
 #define PIO_SM_NUMOF    4                       /**< Number of state machines per PIO */
 #define PIO_INSTR_NUMOF 32                      /**< Maximum number of instructions */
 #define PIO_IRQ_NUMOF   8                       /**< Number of interrupt flags per PIO */
+
+#if defined(PIO_I2C_CONFIG) || defined(DOXYGEN)
+/**
+ * @brief   PIO I2C configuration
+ *
+ * PIO_I2C_CONFIG should be defined during the build process to fit
+ * the users pin selection.
+ */
+static const pio_i2c_conf_t pio_i2c_config[] = {
+    PIO_I2C_CONFIG
+};
+/**
+ * @brief   Number of PIO I2C configurations
+ */
+#define PIO_I2C_NUMOF   ARRAY_SIZE(pio_i2c_config)
+#else
+#define pio_i2c_config  ((pio_i2c_conf_t *)NULL)
+#endif
 /** @} */
 
 #ifdef __cplusplus
