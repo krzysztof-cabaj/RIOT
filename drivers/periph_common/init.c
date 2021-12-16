@@ -52,6 +52,8 @@
 #endif
 #ifdef MODULE_PERIPH_INIT_VBAT
 #include "periph/vbat.h"
+#ifdef MODULE_PERIPH_INIT_PIO
+#include "periph/pio.h"
 #endif
 #endif /* MODULE_PERIPH_INIT */
 
@@ -70,14 +72,14 @@ void periph_init(void)
     }
     /* initialize configured I2C devices */
 #ifdef MODULE_PERIPH_INIT_I2C
-    for (unsigned i = 0; i < I2C_NUMOF; i++) {
+    for (int i = 0; i < (int)I2C_NUMOF; i++) {
         i2c_init(I2C_DEV(i));
     }
 #endif
 
     /* initialize configured SPI devices */
 #ifdef MODULE_PERIPH_INIT_SPI
-    for (unsigned i = 0; i < SPI_NUMOF; i++) {
+    for (int i = 0; i < (int)SPI_NUMOF; i++) {
         spi_init(SPI_DEV(i));
     }
 #endif
@@ -115,6 +117,13 @@ void periph_init(void)
 
 #if defined(MODULE_PERIPH_INIT_VBAT)
     vbat_init();
+#enidif
+
+#ifdef MODULE_PERIPH_INIT_PIO
+    for (int i = 0; i < (int)PIO_NUMOF; i++) {
+        pio_init(PIO_DEV(i));
+    }
+    pio_start_programs();
 #endif
 
 #endif /* MODULE_PERIPH_INIT */
