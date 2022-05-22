@@ -518,12 +518,12 @@ static inline pio_instr_t pio_inst_delay_sideset(unsigned sideset,
  * @brief   Internal state machine registers
  */
 typedef struct pio_sm_ctrl_regs {
-    __IOM uint32_t clkdiv;      /**< SMx_CLKDIV */
-    __IOM uint32_t execctrl;    /**< SMx_EXECCTRL*/
-    __IOM uint32_t shiftctrl;   /**< SMx_SHIFTCTRL */
-    __IM  uint32_t addr;        /**< SMx_ADDR */
-    __IOM uint32_t instr;       /**< SMx_INSTR */
-    __IOM uint32_t pinctrl;     /**< SMx_PINCTRL */
+    volatile uint32_t clkdiv;       /**< SMx_CLKDIV */
+    volatile uint32_t execctrl;     /**< SMx_EXECCTRL*/
+    volatile uint32_t shiftctrl;    /**< SMx_SHIFTCTRL */
+    const volatile uint32_t addr;   /**< SMx_ADDR */
+    volatile uint32_t instr;        /**< SMx_INSTR */
+    volatile uint32_t pinctrl;      /**< SMx_PINCTRL */
 } pio_sm_ctrl_regs_t;
 
 /**
