@@ -975,7 +975,8 @@ void pio_irq_clear(pio_t pio, unsigned irq_flags);
  * @return  Success: 0
  *          Failure: != 0
  */
-int pio_sm_init_common(pio_t pio, pio_sm_t sm, const pio_program_t *prog, const pio_program_conf_t *conf);
+int pio_sm_init_common(pio_t pio, pio_sm_t sm, const pio_program_t *prog,
+                       const pio_program_conf_t *conf);
 
 /**
  * @brief   Print status information about the FIFOs and programs
