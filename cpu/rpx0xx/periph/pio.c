@@ -47,7 +47,7 @@ static inline bool _atomic_set_mask_u32(atomic_uint_least32_t *dst, uint32_t msk
     unsigned irq = irq_disable();
     uint32_t expect = atomic_load(dst);
     while (!(expect & msk) &&
-           !(exch = atomic_compare_exchange_weak(dst, &expect, expect | msk)));
+           !(exch = atomic_compare_exchange_weak(dst, &expect, expect | msk))) {}
     irq_restore(irq);
     return exch;
 }
@@ -58,7 +58,7 @@ static inline bool _atomic_clear_mask_u32(atomic_uint_least32_t *dst, uint32_t m
     unsigned irq = irq_disable();
     uint32_t expect = atomic_load(dst);
     while ((expect & msk) &&
-           !(exch = atomic_compare_exchange_weak(dst, &expect, expect & ~msk)));
+           !(exch = atomic_compare_exchange_weak(dst, &expect, expect & ~msk))) {}
     irq_restore(irq);
     return exch;
 }
@@ -244,7 +244,7 @@ void pio_sm_exec_block(pio_t pio, pio_sm_t sm, pio_instr_t inst) {
     assert((unsigned)sm < PIO_SM_NUMOF);
     PIO0_Type *dev = pio_config[pio].dev;
     pio_sm_ctrl_regs_t *ctrl = &PIO_SM_CTRL_BASE(dev)[sm];
-    while (ctrl->execctrl & PIO0_SM0_EXECCTRL_EXEC_STALLED_Msk);
+    while (ctrl->execctrl & PIO0_SM0_EXECCTRL_EXEC_STALLED_Msk) {}
     ctrl->instr = inst;
 }
 
@@ -564,7 +564,7 @@ void pio_sm_transmit_word_block(pio_t pio, pio_sm_t sm, uint32_t word)
     assert(pio <= PIO_NUMOF);
     assert((unsigned)sm < PIO_SM_NUMOF);
     PIO0_Type *dev = pio_config[pio].dev;
-    while (pio_sm_tx_fifo_full(pio, sm));
+    while (pio_sm_tx_fifo_full(pio, sm)) {}
     (&dev->TXF0)[sm] = word;
 }
 
@@ -597,7 +597,7 @@ void pio_sm_receive_word_block(pio_t pio, pio_sm_t sm, uint32_t *word)
     assert(pio <= PIO_NUMOF);
     assert((unsigned)sm < PIO_SM_NUMOF);
     PIO0_Type *dev = pio_config[pio].dev;
-    while (pio_sm_rx_fifo_empty(pio, sm));
+    while (pio_sm_rx_fifo_empty(pio, sm)) {}
     uint32_t w = (&dev->RXF0)[sm];
     if (word) {
         *word = w;
