@@ -299,17 +299,17 @@ int pio_i2c_read_bytes(pio_t pio, pio_sm_t sm, uint16_t addr,
             pio_i2c_start(pio, sm);
         }
     }
-    while (!pio_sm_receive_word(pio, sm, NULL));
+    while (!pio_sm_receive_word(pio, sm, NULL)) {}
     if (!(flags & I2C_NOSTART)) {
         _pio_i2c_put(pio, sm, I2C_DATA_FRAME(0, (addr << 1) | I2C_READ, 1) << 16);
         error = -ENXIO;
         len_rx += 1;
-        while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm));
+        while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm)) {}
         if ((status = pio_i2c_check_error(pio, sm))) {
             pio_sm_clear_fifos(pio, sm);
         }
     }
-    while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm));
+    while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm)) {}
     while ((len_rx || len) && !status) {
         if ((status = pio_i2c_check_error(pio, sm))) {
             pio_sm_clear_fifos(pio, sm);
@@ -330,11 +330,11 @@ int pio_i2c_read_bytes(pio_t pio, pio_sm_t sm, uint16_t addr,
             len_rx--;
         }
     }
-    while (!pio_sm_tx_fifo_empty(pio, sm));
+    while (!pio_sm_tx_fifo_empty(pio, sm)) {}
     if (!(flags & I2C_NOSTOP) || status || (status = pio_i2c_check_error(pio, sm))) {
         pio_i2c_stop(pio, sm);
     }
-    while (!pio_sm_tx_fifo_empty(pio, sm));
+    while (!pio_sm_tx_fifo_empty(pio, sm)) {}
     return status ? error : (pio_i2c_check_error(pio, sm) ? -EIO : 0);
 }
 
@@ -357,17 +357,17 @@ int pio_i2c_write_bytes(pio_t pio, pio_sm_t sm, uint16_t addr,
             pio_i2c_start(pio, sm);
         }
     }
-    while (!pio_sm_receive_word(pio, sm, NULL));
+    while (!pio_sm_receive_word(pio, sm, NULL)) {}
     if (!(flags & I2C_NOSTART)) {
         _pio_i2c_put(pio, sm, I2C_DATA_FRAME(0, (addr << 1), 1) << 16);
         error = -ENXIO;
         len_rx += 1;
-        while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm));
+        while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm)) {}
         if ((status = pio_i2c_check_error(pio, sm))) {
             pio_sm_clear_fifos(pio, sm);
         }
     }
-    while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm));
+    while (!pio_sm_tx_fifo_empty(pio, sm) || !pio_i2c_check_idle(pio, sm)) {}
     while ((len_rx || len) && !status) {
         if ((status = pio_i2c_check_error(pio, sm))) {
             pio_sm_clear_fifos(pio, sm);
@@ -385,11 +385,11 @@ int pio_i2c_write_bytes(pio_t pio, pio_sm_t sm, uint16_t addr,
             len_rx--;
         }
     }
-    while (!pio_sm_tx_fifo_empty(pio, sm));
+    while (!pio_sm_tx_fifo_empty(pio, sm)) {}
     if (!(flags & I2C_NOSTOP) || status || (status = pio_i2c_check_error(pio, sm))) {
         pio_i2c_stop(pio, sm);
     }
-    while (!pio_sm_tx_fifo_empty(pio, sm));
+    while (!pio_sm_tx_fifo_empty(pio, sm)) {}
     return status ? error : (pio_i2c_check_error(pio, sm) ? -EIO : 0);
 }
 
