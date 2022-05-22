@@ -396,9 +396,9 @@ void pio_sm_set_clkdiv(pio_t pio, pio_sm_t sm, pio_sm_clkdiv_t clk)
         clk.frac_100 /= 10;
     }
     uint32_t frac = ((((uint16_t)clk.frac_100) * 256) + 50) / 100;
-    io_reg_write_dont_corrupt(&ctrl->clkdiv,
-                              (clk.div << PIO0_SM0_CLKDIV_INT_Pos) | (frac << PIO0_SM0_CLKDIV_FRAC_Pos),
-                              PIO0_SM0_CLKDIV_INT_Msk | PIO0_SM0_CLKDIV_FRAC_Msk);
+    uint32_t val = (clk.div << PIO0_SM0_CLKDIV_INT_Pos) | (frac << PIO0_SM0_CLKDIV_FRAC_Pos);
+    uint32_t msk = PIO0_SM0_CLKDIV_INT_Msk | PIO0_SM0_CLKDIV_FRAC_Msk;
+    io_reg_write_dont_corrupt(&ctrl->clkdiv, val, msk);
 }
 
 void pio_sm_clkdiv_restart(pio_t pio, unsigned sm_mask)
