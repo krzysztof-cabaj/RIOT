@@ -508,20 +508,21 @@ void pio_sm_irq_enable(pio_t pio, pio_sm_t sm, unsigned irq_mask)
 {
     assert(pio <= PIO_NUMOF);
     assert((unsigned)sm < PIO_SM_NUMOF);
+    uint32_t val;
     PIO0_Type *dev = pio_config[pio].dev;
     if (irq_mask & (PIO_SM_IRQ0_SM | PIO_SM_IRQ0_TXNFULL | PIO_SM_IRQ0_RXNEMPTY)) {
         NVIC_EnableIRQ(pio_config[pio].irqn0);
-        io_reg_atomic_set(&dev->IRQ0_INTE.reg,
-                          ((!!(irq_mask & PIO_SM_IRQ0_SM)) << (PIO0_IRQ0_INTE_SM0_Pos + sm)) |
-                          ((!!(irq_mask & PIO_SM_IRQ0_TXNFULL)) << (PIO0_IRQ0_INTE_SM0_TXNFULL_Pos + sm)) |
-                          ((!!(irq_mask & PIO_SM_IRQ0_RXNEMPTY)) << (PIO0_IRQ0_INTE_SM0_RXNEMPTY_Pos + sm)));
+        val = ((!!(irq_mask & PIO_SM_IRQ0_SM)) << (PIO0_IRQ0_INTE_SM0_Pos + sm)) |
+              ((!!(irq_mask & PIO_SM_IRQ0_TXNFULL)) << (PIO0_IRQ0_INTE_SM0_TXNFULL_Pos + sm)) |
+              ((!!(irq_mask & PIO_SM_IRQ0_RXNEMPTY)) << (PIO0_IRQ0_INTE_SM0_RXNEMPTY_Pos + sm));
+        io_reg_atomic_set(&dev->IRQ0_INTE.reg, val);
     }
     if (irq_mask & (PIO_SM_IRQ1_SM | PIO_SM_IRQ1_TXNFULL | PIO_SM_IRQ1_RXNEMPTY)) {
         NVIC_EnableIRQ(pio_config[pio].irqn1);
-        io_reg_atomic_set(&dev->IRQ1_INTE.reg,
-                          ((!!(irq_mask & PIO_SM_IRQ1_SM)) << (PIO0_IRQ1_INTE_SM0_Pos + sm)) |
-                          ((!!(irq_mask & PIO_SM_IRQ1_TXNFULL)) << (PIO0_IRQ1_INTE_SM0_TXNFULL_Pos + sm)) |
-                          ((!!(irq_mask & PIO_SM_IRQ1_RXNEMPTY)) << (PIO0_IRQ1_INTE_SM0_RXNEMPTY_Pos + sm)));
+        val = ((!!(irq_mask & PIO_SM_IRQ1_SM)) << (PIO0_IRQ1_INTE_SM0_Pos + sm)) |
+              ((!!(irq_mask & PIO_SM_IRQ1_TXNFULL)) << (PIO0_IRQ1_INTE_SM0_TXNFULL_Pos + sm)) |
+              ((!!(irq_mask & PIO_SM_IRQ1_RXNEMPTY)) << (PIO0_IRQ1_INTE_SM0_RXNEMPTY_Pos + sm));
+        io_reg_atomic_set(&dev->IRQ1_INTE.reg, val);
     }
 }
 
