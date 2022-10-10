@@ -52,9 +52,9 @@ int i2c_read_bytes(i2c_t dev, uint16_t addr, void *data,
 {
     if (IS_USED(MODULE_PIO_I2C) && (int)dev >= I2C_NUMOF) {
         pio_i2c_obj_t *i2c = pio_i2c_get(dev - I2C_NUMOF);
-        return i2c ? pio_i2c_read_bytes(i2c->pio, i2c->sm, addr, data, len, flags) : -EFAULT;
+        return i2c ? pio_i2c_read_bytes(i2c->pio, i2c->sm, addr, data, len, flags) : -EINVAL;
     }
-    return -ENOTSUP;
+    return -EIO;
 }
 
 int i2c_read_regs(i2c_t dev, uint16_t addr, uint16_t reg,
@@ -62,9 +62,9 @@ int i2c_read_regs(i2c_t dev, uint16_t addr, uint16_t reg,
 {
     if (IS_USED(MODULE_PIO_I2C) && (int)dev >= I2C_NUMOF) {
         pio_i2c_obj_t *i2c = pio_i2c_get(dev - I2C_NUMOF);
-        return i2c ? pio_i2c_read_regs(i2c->pio, i2c->sm, addr, reg, data, len, flags) : -EFAULT;
+        return i2c ? pio_i2c_read_regs(i2c->pio, i2c->sm, addr, reg, data, len, flags) : -EINVAL;
     }
-    return -ENOTSUP;
+    return -EIO;
 }
 
 int i2c_read_reg(i2c_t dev, uint16_t addr, uint16_t reg,
@@ -78,9 +78,9 @@ int i2c_write_bytes(i2c_t dev, uint16_t addr, const void *data,
 {
     if (IS_USED(MODULE_PIO_I2C) && (int)dev >= I2C_NUMOF) {
         pio_i2c_obj_t *i2c = pio_i2c_get(dev - I2C_NUMOF);
-        return i2c ? pio_i2c_write_bytes(i2c->pio, i2c->sm, addr, data, len, flags) : -EFAULT;
+        return i2c ? pio_i2c_write_bytes(i2c->pio, i2c->sm, addr, data, len, flags) : -EINVAL;
     }
-    return -ENOTSUP;
+    return -EIO;
 }
 
 int i2c_write_regs(i2c_t dev, uint16_t addr, uint16_t reg,
@@ -88,9 +88,9 @@ int i2c_write_regs(i2c_t dev, uint16_t addr, uint16_t reg,
 {
     if (IS_USED(MODULE_PIO_I2C) && (int)dev >= I2C_NUMOF) {
         pio_i2c_obj_t *i2c = pio_i2c_get(dev - I2C_NUMOF);
-        return i2c ? pio_i2c_write_regs(i2c->pio, i2c->sm, addr, reg, data, len, flags) : -EFAULT;
+        return i2c ? pio_i2c_write_regs(i2c->pio, i2c->sm, addr, reg, data, len, flags) : -EINVAL;
     }
-    return -ENOTSUP;
+    return -EIO;
 }
 
 int i2c_write_reg(i2c_t dev, uint16_t addr, uint16_t reg,
