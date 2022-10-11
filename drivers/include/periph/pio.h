@@ -58,7 +58,7 @@ extern "C" {
 #endif
 
 /**
- * @brief   Program location to that states that the program
+ * @brief   Program location that states that the program
  *          has not been loaded into instruction memory
  */
 #define PIO_PROGRAM_NOT_LOADED      (-1)
