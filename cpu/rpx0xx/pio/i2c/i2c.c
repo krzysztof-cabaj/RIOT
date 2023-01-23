@@ -66,11 +66,11 @@ static void pio_i2c_init_pins(pio_t pio, pio_sm_t sm, gpio_t sda, gpio_t scl)
        otherwise. */
     gpio_set_pad_config(scl, pad_ctrl);
     gpio_set_pad_config(sda, pad_ctrl);
-    pio_sm_exec_block(pio, sm, pio_inst_set(PIO_INST_SET_DST_PINS, 0x3));
-    pio_sm_exec_block(pio, sm, pio_inst_set(PIO_INST_SET_DST_PINDIRS, 0x3));
+    pio_sm_set_pins_with_mask(pio, sm, (1u << sda) | (1u << scl), (1u << sda) | (1u << scl));
+    pio_sm_set_pindirs_with_mask(pio, sm, (1u << sda) | (1u << scl), (1u << sda) | (1u << scl));
     gpio_set_io_config(scl, io_ctrl);
     gpio_set_io_config(sda, io_ctrl);
-    pio_sm_exec_block(pio, sm, pio_inst_set(PIO_INST_SET_DST_PINS, 0x0));
+    pio_sm_set_pins_with_mask(pio, sm, 0, (1u << sda) | (1u << scl));
 }
 
 static inline bool pio_i2c_check_error(pio_t pio, pio_sm_t sm)
