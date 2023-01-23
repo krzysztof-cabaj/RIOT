@@ -73,14 +73,14 @@ void periph_init(void)
     }
     /* initialize configured I2C devices */
 #ifdef MODULE_PERIPH_INIT_I2C
-    for (int i = 0; i < (int)I2C_NUMOF; i++) {
+    for (unsigned i = 0; i < I2C_NUMOF; i++) {
         i2c_init(I2C_DEV(i));
     }
 #endif
 
     /* initialize configured SPI devices */
 #ifdef MODULE_PERIPH_INIT_SPI
-    for (int i = 0; i < (int)SPI_NUMOF; i++) {
+    for (unsigned i = 0; i < SPI_NUMOF; i++) {
         spi_init(SPI_DEV(i));
     }
 #endif
