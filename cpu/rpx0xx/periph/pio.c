@@ -655,6 +655,40 @@ int pio_sm_init_common(pio_t pio, pio_sm_t sm,
     return 0;
 }
 
+void pio_sm_set_pindirs_with_mask(pio_t pio, pio_sm_t sm, gpio_t values, gpio_t mask)
+{
+    assert(pio <= PIO_NUMOF);
+    assert((unsigned)sm < PIO_SM_NUMOF);
+    PIO0_Type *dev = pio_config[pio].dev;
+    pio_sm_ctrl_regs_t *ctrl = &PIO_SM_CTRL_BASE(dev)[sm];
+    uint32_t pinctrl = ctrl->pinctrl;
+    while (mask) {
+        unsigned pos = (unsigned)__builtin_ctz(mask);
+        ctrl->pinctrl = (1u << PIO0_SM0_PINCTRL_SET_COUNT_Pos) |
+                        (pos << PIO0_SM0_PINCTRL_SET_BASE_Pos);
+        pio_sm_exec(pio, sm, pio_inst_set(PIO_INST_SET_DST_PINDIRS, (values >> pos) & 0x1u));
+        mask &= mask - 1;
+    }
+    ctrl->pinctrl = pinctrl;
+}
+
+void pio_sm_set_pins_with_mask(pio_t pio, pio_sm_t sm, gpio_t values, gpio_t mask)
+{
+    assert(pio <= PIO_NUMOF);
+    assert((unsigned)sm < PIO_SM_NUMOF);
+    PIO0_Type *dev = pio_config[pio].dev;
+    pio_sm_ctrl_regs_t *ctrl = &PIO_SM_CTRL_BASE(dev)[sm];
+    uint32_t pinctrl = ctrl->pinctrl;
+    while (mask) {
+        unsigned pos = (unsigned)__builtin_ctz(mask);
+        ctrl->pinctrl = (1u << PIO0_SM0_PINCTRL_SET_COUNT_Pos) |
+                        (pos << PIO0_SM0_PINCTRL_SET_BASE_Pos);
+        pio_sm_exec(pio, sm, pio_inst_set(PIO_INST_SET_DST_PINS, (values >> pos) & 0x1u));
+        mask &= mask - 1;
+    }
+    ctrl->pinctrl = pinctrl;
+}
+
 void pio_print_status(pio_t pio)
 {
     assert(pio <= PIO_NUMOF);

@@ -979,6 +979,30 @@ int pio_sm_init_common(pio_t pio, pio_sm_t sm, const pio_program_t *prog,
                        const pio_program_conf_t *conf);
 
 /**
+ * @brief   Apply pin directions in @p values for which the corresponding bit in @p mask is set.
+ *
+ * 1 means output, 0 means input.
+ *
+ * @param[in]       pio         PIO index
+ * @param[in]       sm          PIO state machine index
+ * @param[in]       values      Pin directions out/in to be set
+ * @param[in]       mask        Mask of which pins should be modified
+ */
+void pio_sm_set_pindirs_with_mask(pio_t pio, pio_sm_t sm, gpio_t values, gpio_t mask);
+
+/**
+ * @brief   Apply pin values in @p values for which the corresponding bit in @p mask is set.
+ *
+ * 1 means high, 0 means low.
+ *
+ * @param[in]       pio         PIO index
+ * @param[in]       sm          PIO state machine index
+ * @param[in]       values      Pin values on/off to be set
+ * @param[in]       mask        Mask of which pins should be modified
+ */
+void pio_sm_set_pins_with_mask(pio_t pio, pio_sm_t sm, gpio_t values, gpio_t mask);
+
+/**
  * @brief   Print status information about the FIFOs and programs
  *
  * @param[in]       pio         PIO index
