@@ -28,6 +28,16 @@
 extern "C" {
 #endif
 
+/**
+ * @brief   Silences the warning when an unsigned value is compared to 0
+ *
+ * This can be deleted when I2C is properly implemented.
+ */
+static inline unsigned _periph_numof_is_unsigned_0(void)
+{
+    return 0;
+}
+
 static const uart_conf_t uart_config[] = {
     {
         .dev = UART0,
@@ -85,7 +95,7 @@ static const timer_conf_t timer_config[] = {
 /**
  *  @brief  Number of I2C interfaces
  */
-#define I2C_NUMOF       0
+#define I2C_NUMOF       _periph_numof_is_unsigned_0()
 /** @} */
 
 /**
