@@ -31,6 +31,18 @@ extern "C" {
 typedef uint16_t pio_instr_t;
 
 /**
+ * @brief   Type used to configure PIO gpios pins
+ */
+typedef struct {
+    gpio_pad_ctrl_t pad;    /**< Pads bank GPIO control register configuration */
+    gpio_io_ctrl_t io;      /**< IO bank GPIO control register */
+    gpio_t gpio_state;      /**< GPIO states applied to pins, where the LSBit is the base */
+    gpio_t gpio_direction;  /**< GPIO directions applied to pins, where the LSBit is the base */
+    gpio_t gpio_base;       /**< GPIO base */
+    unsigned gpio_count;    /**< Number of GPIOs starting at base */
+} pio_gpio_init_t;
+
+/**
  * @name    PIO instruction set
  * @{
  */
@@ -1001,6 +1013,36 @@ void pio_sm_set_pindirs_with_mask(pio_t pio, pio_sm_t sm, gpio_t values, gpio_t 
  * @param[in]       mask        Mask of which pins should be modified
  */
 void pio_sm_set_pins_with_mask(pio_t pio, pio_sm_t sm, gpio_t values, gpio_t mask);
+
+/**
+ * @brief   Set pins affected by 'set pins' and 'set pindirs' instructions
+ *          and initialize the pins as PIO pins and a state according to @p pin_init.
+ *
+ * @param[in]       pio         PIO index
+ * @param[in]       sm          PIO state machine index
+ * @param[in]       pin_init    GPIO pin initialization values
+ */
+void pio_sm_set_set_pins_init(pio_t pio, pio_sm_t sm, const pio_gpio_init_t *pin_init);
+
+/**
+ * @brief   Set output pins affected by 'out pins', 'out pindirs' and 'mov pins' instructions
+ *          and initialize the pins as PIO pins and a state according to @p pin_init.
+ *
+ * @param[in]       pio         PIO index
+ * @param[in]       sm          PIO state machine index
+ * @param[in]       pin_init    GPIO pin initialization values
+ */
+void pio_sm_set_out_pins_init(pio_t pio, pio_sm_t sm, const pio_gpio_init_t *pin_init);
+
+/**
+ * @brief   Set pins affected by sideset instructions
+ *          and initialize the pins as PIO pins and a state according to @p pin_init.
+ *
+ * @param[in]       pio         PIO index
+ * @param[in]       sm          PIO state machine index
+ * @param[in]       pin_init    GPIO pin initialization values
+ */
+void pio_sm_set_sideset_pins_init(pio_t pio, pio_sm_t sm, const pio_gpio_init_t *pin_init);
 
 /**
  * @brief   Print status information about the FIFOs and programs
