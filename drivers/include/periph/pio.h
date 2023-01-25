@@ -161,7 +161,7 @@ int pio_alloc_program(pio_t pio, pio_program_t *prog);
  *
  * @param[out]      pio_ptr     Destination to store the PIO index
  * @param[out]      sm_ptr      Destination to store the PIO state machine index
- * @param[in, out]  program     Program pointer of the progra to be allocated
+ * @param[in, out]  program     Program pointer of the program to be allocated
  *
  * @return  Success: 0
  *          Failure: != 0
