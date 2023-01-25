@@ -8,7 +8,7 @@
 
 #include <errno.h>
 #include "pio/pio.h"
-#include "blink.hex.pio.h"
+#include "blink.pio.h"
 
 static void pio_blink_init_pins(pio_t pio, pio_sm_t sm, gpio_t pin)
 {

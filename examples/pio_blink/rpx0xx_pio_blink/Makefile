@@ -1,7 +1,5 @@
 include $(RIOTBASE)/Makefile.base
+include $(RIOTMAKE)/pio.inc.mk
 
-blink.c: blink.hex.pio.h
-
-blink.hex.pio.h: blink.pio
-	$(Q) $(RIOTTOOLS)/pioasm/pioasm -o RIOT $< $@
-
+# Force generation of not existing pio header file
+blink.c: blink.pio.h

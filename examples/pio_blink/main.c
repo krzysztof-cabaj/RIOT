@@ -8,17 +8,12 @@
 
 #include "board.h"
 #include "periph/pio.h"
-#include "shell.h"
 
 pio_program_t pio_blink_export_program(void);
 
 int pio_blink_init(pio_program_t *blink,
                    pio_t pio, pio_sm_t sm, const pio_program_t *pro,
                    gpio_t pin);
-
-static const shell_command_t shell_commands[] = {
-    {NULL, NULL, NULL}
-};
 
 int main(void)
 {
@@ -34,7 +29,5 @@ int main(void)
         return 1;
     }
     pio_sm_start(pio, sm);
-
-    static char line_buf[SHELL_DEFAULT_BUFSIZE];
-    shell_run_forever(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
+    return 0;
 }
