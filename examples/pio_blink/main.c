@@ -28,6 +28,8 @@ int main(void)
         puts("PIO blink initialization failed");
         return 1;
     }
+
+    printf("Test\n");
     pio_sm_start(pio, sm);
     return 0;
 }
