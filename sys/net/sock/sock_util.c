@@ -216,6 +216,14 @@ int sock_tl_str2ep(struct _sock_tl_ep *ep_out, const char *str)
 
     memset(ep_out, 0, sizeof(sock_udp_ep_t));
 
+// Dirty hack for parsing IPv6 address without square brackets - see Issue #19379
+#ifdef SOCK_HAS_IPV6
+    if (inet_pton(AF_INET6, str, ep_out->addr.ipv6) == 1) {
+        ep_out->family = AF_INET6;
+        return 0;
+    }
+#endif
+
     if (*hoststart == '[') {
         brackets_flag = 1;
         for (hostend = ++hoststart;
