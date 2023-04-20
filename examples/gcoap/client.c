@@ -184,6 +184,55 @@ static int _print_usage(char **argv)
     return 1;
 }
 
+int gcoap_cli_subcmd_info(void)
+{
+ uint8_t open_reqs = gcoap_op_state();
+
+ if (IS_USED(MODULE_GCOAP_DTLS)) {
+    printf("CoAP server is listening on port %u\n", CONFIG_GCOAPS_PORT);
+    } else {
+        printf("CoAP server is listening on port %u\n", CONFIG_GCOAP_PORT);
+	}
+#if IS_USED(MODULE_GCOAP_DTLS)
+        printf("Connection secured with DTLS\n");
+        printf("Free DTLS session slots: %d/%d\n", dsm_get_num_available_slots(),
+                dsm_get_num_maximum_slots());
+#endif
+        printf(" CLI requests sent: %u\n", req_count);
+        printf("CoAP open requests: %u\n", open_reqs);
+        printf("Configured Proxy: ");
+
+ if (_proxied) {
+#ifdef SOCK_HAS_IPV6
+    char addrstr[IPV6_ADDR_MAX_STR_LEN];
+#else
+    char addrstr[IPV4_ADDR_MAX_STR_LEN];
+#endif
+    inet_ntop(_proxy_remote.family, &_proxy_remote.addr, addrstr, sizeof(addrstr));
+
+    if (_proxy_remote.family == AF_INET6) {
+        printf("[%s]:%u\n", addrstr, _proxy_remote.port);
+        }
+    else {
+        printf("%s:%u\n", addrstr, _proxy_remote.port);
+	}
+    }
+    else {
+        puts("None");
+    }
+ return 0;
+}
+
+int gcoap_cli_subcmd_help(char **argv)
+{
+ printf("usage: %s <get|post|put> [-c] <host>[:port] <path> [data]\n",
+       argv[0]);
+ printf("       %s ping <host>[:port]\n", argv[0]);
+ printf("Options\n");
+ printf("    -c  Send confirmably (defaults to non-confirmable)\n");
+ return 1;
+}
+
 int gcoap_cli_cmd(int argc, char **argv)
 {
     /* Ordered like the RFC method code numbers, but off by 1. GET is code 0. */
@@ -198,39 +247,7 @@ int gcoap_cli_cmd(int argc, char **argv)
     }
 
     if (strcmp(argv[1], "info") == 0) {
-        uint8_t open_reqs = gcoap_op_state();
-
-        if (IS_USED(MODULE_GCOAP_DTLS)) {
-            printf("CoAP server is listening on port %u\n", CONFIG_GCOAPS_PORT);
-        } else {
-            printf("CoAP server is listening on port %u\n", CONFIG_GCOAP_PORT);
-        }
-#if IS_USED(MODULE_GCOAP_DTLS)
-        printf("Connection secured with DTLS\n");
-        printf("Free DTLS session slots: %d/%d\n", dsm_get_num_available_slots(),
-                dsm_get_num_maximum_slots());
-#endif
-        printf(" CLI requests sent: %u\n", req_count);
-        printf("CoAP open requests: %u\n", open_reqs);
-        printf("Configured Proxy: ");
-        if (_proxied) {
-#ifdef SOCK_HAS_IPV6
-            char addrstr[IPV6_ADDR_MAX_STR_LEN];
-#else
-            char addrstr[IPV4_ADDR_MAX_STR_LEN];
-#endif
-            inet_ntop(_proxy_remote.family, &_proxy_remote.addr, addrstr, sizeof(addrstr));
-
-            if (_proxy_remote.family == AF_INET6) {
-                printf("[%s]:%u\n", addrstr, _proxy_remote.port);
-            }
-            else {
-                printf("%s:%u\n", addrstr, _proxy_remote.port);
-            }
-        }
-        else {
-            puts("None");
-        }
+	gcoap_cli_subcmd_info();
         return 0;
     }
     else if (strcmp(argv[1], "proxy") == 0) {
@@ -380,12 +397,8 @@ int gcoap_cli_cmd(int argc, char **argv)
         return 0;
     }
     else {
-        printf("usage: %s <get|post|put> [-c] <host>[:port] <path> [data]\n",
-               argv[0]);
-        printf("       %s ping <host>[:port]\n", argv[0]);
-        printf("Options\n");
-        printf("    -c  Send confirmably (defaults to non-confirmable)\n");
-        return 1;
+     gcoap_cli_subcmd_help(argv);
+     return 1;
     }
 
     return _print_usage(argv);
