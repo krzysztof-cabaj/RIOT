@@ -29,6 +29,7 @@ static int send_command(int argc, char **argv)
  static sock_udp_t _sock;
  int result;
 
+
   static const sock_udp_ep_t remote = { .addr = { .ipv4_u32 = _TEST_ADDR4_REMOTE
  },
                                           .family = AF_INET,
