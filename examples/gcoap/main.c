@@ -34,6 +34,9 @@ static const shell_command_t shell_commands[] = {
     { NULL, NULL, NULL }
 };
 
+//some test functionality
+//Aqq Bzz ...
+
 int main(void)
 {
     /* for the thread running the shell */
