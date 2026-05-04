@@ -9,6 +9,10 @@ Cortex-M4 STM32F429ZI microcontroller with 256KiB of RAM and 2MiB of Flash.
 
 This board is a replacement for the older @ref boards_stm32f429i-disco board.
 
+## Pinout
+
+@image html pinouts/stm32f429i-disc1.svg "Pinout for the STM32F429I-DISC1, bottom layout (from STM user manual UM1607, https://www.st.com/resource/en/user_manual/um1670-discovery-kit-with-stm32f429zi-mcu-stmicroelectronics.pdf, page 12)" width=50%
+
 ### MCU
 
 | MCU          | STM32F429ZI         |
